@@ -1,15 +1,10 @@
+# -*- coding: utf-8 -*-
 import os,sys
 try:          
     import maya.standalone     
 except:          
     pass
 import maya.cmds as cmds
-
-try:
-	maya.standalone.initialize('python')
-except:
-	print("[MayaWorker] standalone already running")
-print("[MayaWorker] Initialize OK.")
 
 def openScene(path = None):
     if os.path.exists(path):
@@ -54,9 +49,11 @@ def saveWorkingScene(np):
 def relink(path):
     results = []
     openScene(path)
+    print("openScene OK: ", path)
     links = cmds.filePathEditor(query=True, listDirectories="") 
     if links == None:
         return
+    print("filePathEditor OK: ", links)
     for link in links: 
         pairs =  cmds.filePathEditor(query=True, listFiles=link, withAttribute=True, status=True)    
         print("pairs: ", pairs)        
@@ -77,10 +74,6 @@ def relink(path):
     saveWorkingScene(path)
     print("[MayaWorker] After Relink:{}".format(cmds.filePathEditor(query=True, listDirectories="")))
 
-    if float(cmds.about(v=True)) >= 2016.0:
-        maya.standalone.uninitialize()
-        print("[MayaWorker] Uninitialize OK.")
-
 def repath(node, file, project_path):
 	matches = []
 	for root, dirnames, filenames in os.walk(os.path.dirname(project_path)):
@@ -99,4 +92,17 @@ def repath(node, file, project_path):
 	return None 
     
 if __name__ == "__main__":
-    relink(sys.argv[1])
+    try:
+        maya.standalone.initialize('python')
+    except:
+        print("[MayaWorker] standalone already running")
+    print("[MayaWorker] Initialize OK.")
+    
+    if os.path.exists(sys.argv[1]):
+        relink(sys.argv[1])
+    else:
+        print("@@@@ No Such File:     %s" % sys.argv[1])
+    
+    if float(cmds.about(v=True)) >= 2016.0:
+        maya.standalone.uninitialize()
+        print("[MayaWorker] Uninitialize OK.")

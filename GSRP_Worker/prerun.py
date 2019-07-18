@@ -119,6 +119,9 @@ def GetRunningFile():
 def main():
     global serverIP
 
+    if not os.path.exists("D:\\Autodesk"):
+        shutil.copytree("C:\\Progra~1\\Autodesk","D:\\Autodesk")
+        
     GetRunningFile()
  
     event.wait()
