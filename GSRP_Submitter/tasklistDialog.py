@@ -127,7 +127,7 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
              global Pandoraq
              import sys
              self.pandoraRoot = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-             sys.path.append(os.path.join(self.pandoraRoot, "Pandora\\Pandora", "Scripts"))
+             sys.path.append(os.path.join(self.pandoraRoot, "Pandora", "Scripts"))
 
              import maya.standalone
              maya.standalone.initialize('Python')
