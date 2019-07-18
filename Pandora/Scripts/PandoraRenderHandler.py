@@ -725,7 +725,12 @@ class RenderHandler(QMainWindow, RenderHandler_ui.Ui_mw_RenderHandler):
 		actSlvPath = os.path.join(self.logDir, "Coordinator", "ActiveSlaves.json")
 
 		if os.path.exists(actSlvPath):
-			activeSlaves = self.getConfig(configPath=actSlvPath, getConf=True)
+			activeSlaves = self.getConfig(configPath=actSlvPath, getConf=True, silent=True) 
+			if activeSlaves == "Error":
+				time.sleep(1)
+				activeSlaves = self.getConfig(configPath=actSlvPath, getConf=True, silent=True)
+				if activeSlaves == "Error":
+					activeSlaves = {}
 
 		if os.path.isdir(slaveDir):
 			corruptSlaves = []
@@ -1261,8 +1266,9 @@ class RenderHandler(QMainWindow, RenderHandler_ui.Ui_mw_RenderHandler):
 		warningsPath = self.getCoordWarnPath()
 
 		if os.path.exists(warningsPath):
-			wconfig = self.getConfig(configPath=warningsPath, getConf=True)
-
+			wconfig = self.getConfig(configPath=warningsPath, getConf=True, silent=True) 
+			if wconfig == "Error":
+				wconfig = {}
 			if "warnings" in wconfig:
 				for i in wconfig["warnings"]:
 					warnVal = wconfig["warnings"][i]
@@ -1401,7 +1407,7 @@ class RenderHandler(QMainWindow, RenderHandler_ui.Ui_mw_RenderHandler):
 
 
 	@err_decorator
-	def getConfig(self, cat=None, param=None, data=None, configPath=None, getOptions=False, getItems=False, getConf=False, silent=False, readlines=False):
+	def getConfig(self, cat=None, param=None, data=None, configPath=None, getOptions=False, getItems=False, getConf=False, silent=True, readlines=False):
 		cachePath = configPath
 		if configPath is not None and configPath.replace("/", "\\").startswith(self.logDir.replace("/", "\\")):
 			cPath = configPath.replace("/", "\\").replace(self.logDir.replace("/", "\\"), self.cacheBase)

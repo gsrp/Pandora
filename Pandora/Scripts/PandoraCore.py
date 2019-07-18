@@ -725,7 +725,7 @@ class PandoraCore():
 			if os.path.exists(configPath):
 				with open(configPath, 'r') as f:
 					userConfig = json.load(f)
-		except:
+		except Exception as e:
 			if silent:
 				return "Error"
 
@@ -737,7 +737,7 @@ class PandoraCore():
 				with open(configPath, 'r') as f:
 					userConfig = json.load(f)
 			else:
-				warnStr = "Cannot read the following file:\n\n%s\n\nDo you want to delete the corrupt file?" % configPath
+				warnStr = "Cannot read the following file:\n\n{} err:{}\n\nDo you want to delete the corrupt file?".format(configPath,e)
 				msg = QMessageBox(QMessageBox.Warning, "Warning", warnStr, QMessageBox.Cancel, parent=self.messageParent)
 				msg.addButton("Delete", QMessageBox.YesRole)
 				msg.addButton("Open file", QMessageBox.YesRole)

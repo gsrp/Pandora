@@ -487,8 +487,8 @@ class SlaveLogic(QDialog):
 		}
 		for idx, val in enumerate(warnings):
 			warningConfig["warnings"]["warning%s" % idx] = val
-
-		result = self.setConfig(configPath=self.slaveWarningsConf, confData=warningConfig)
+			print("Warnings:{}".format(val))
+		# result = self.setConfig(configPath=self.slaveWarningsConf, confData=warningConfig)
 		if result:
 			self.writeLog("writeWarning %s" % result, 2, writeWarning=False)
 
@@ -1046,10 +1046,17 @@ class SlaveLogic(QDialog):
 		if cresult > 0:
 			return [False, cresult]
 
-
 		return [True]
 
+	@err_decorator
+	def relinkMayaPath(self,mbfilepath):
 
+		mayapyPath = "C:\\Progra~1\\Autodesk\\Maya2019\\bin\\mayapy.exe"
+		relinkfile = "D:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
+		result = subprocess.Popen([mayapyPath, relinkfile, mbfilepath], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		stdOutData, stderrdata = result.communicate()
+		self.writeLog("relinkMayaPath \nstdOutData: {} \nstderrdata:{}\n".format(stdOutData, stderrdata))
+	
 	# checks if the rest period is active
 	@err_decorator
 	def checkRest(self):
@@ -1188,6 +1195,9 @@ class SlaveLogic(QDialog):
 						return True
 
 		sceneFile = os.path.join(localPath, sceneName)
+
+		self.relinkMayaPath(sceneFile)
+
 		self.waitingForFiles = False
 
 		if "fileCount" in jobData:
