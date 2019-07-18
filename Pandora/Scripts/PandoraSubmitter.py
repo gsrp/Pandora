@@ -61,8 +61,9 @@ else:
 
 
 class PandoraSubmitter(QDialog, PandoraSubmitter_ui.Ui_dlg_pandoraSubmitter):
-	def __init__(self, core):
-		QDialog.__init__(self)
+	def __init__(self, core,parent):
+		QDialog.__init__(self,parent)
+        #super(PandoraSubmitter,self).__init__(parent)
 		self.setupUi(self)
 
 		self.core = core
@@ -313,7 +314,7 @@ If set to False, the renderings can be found locally on the renderslave, which r
 			
 		rSettings = {"outputName": outputName}
 
-		self.core.appPlugin.preSubmit(self, rSettings)
+		#self.core.appPlugin.preSubmit(self, rSettings)
 
 		outputFolder = self.e_outputpath.text()
 		if os.path.splitext(outputFolder)[1] != "":

@@ -1192,9 +1192,9 @@ class PandoraCore():
 		if os.path.exists(jobPath):
 			return "Submission canceled: Job already exists"
 
-		self.callback(name="onPreJobSubmitted", types=["curApp", "custom"], args=[self, os.path.dirname(jobPath)])
+		#self.callback(name="onPreJobSubmitted", types=["curApp", "custom"], args=[self, os.path.dirname(jobPath)])
 
-		self.saveScene()
+		#self.saveScene()
 
 		os.makedirs(jobPath)
 
@@ -1305,7 +1305,16 @@ class PandoraCore():
 				copyScene = getattr(self.appPlugin, "copyScene", lambda x,y, z: False)(self, jobPath, submitData["submitDependendFiles"])
 
 				if not copyScene:
-					shutil.copy2(fileName, jobPath)
+					fileDir = os.path.dirname(fileName)
+					print fileDir
+					print jobPath
+					if os.path.exists(jobPath):
+						print
+						try:
+							shutil.rmtree(jobPath)
+						except Exception as err:
+							print err
+					shutil.copytree(fileDir, jobPath)
 				break
 			except Exception as e:
 				msg = QMessageBox(QMessageBox.Warning, "Pandora job submission", "An error occurred while copying the scenefile.\n\n%s" % e, QMessageBox.Cancel)

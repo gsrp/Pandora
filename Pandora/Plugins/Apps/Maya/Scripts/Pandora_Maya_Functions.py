@@ -177,6 +177,7 @@ class Pandora_Maya_Functions(object):
 
 	@err_decorator
 	def getExternalFiles(self, origin, isSubmitting=False):
+		return []
 		prjPath = cmds.workspace( fullName=True, query=True)
 		if prjPath.endswith(":"):
 			prjPath += "/"
