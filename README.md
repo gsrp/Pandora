@@ -1,3 +1,6 @@
+# Why Forked 
+For better unattended operation in the LAN
+
 # Pandora
 
 This is the official repository of the Pandora Renderfarmmanager.
