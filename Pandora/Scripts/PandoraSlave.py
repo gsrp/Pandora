@@ -1249,8 +1249,10 @@ class SlaveLogic(QDialog):
 			bugButton.setVisible(False)
 			self.msg.show()
 
+		self.writeLog("Start Copy mb Files to: %s" % localPath)
 		if not os.path.exists(localPath):
 			shutil.copytree(os.path.join(self.slavePath, "AssignedJobs", jobCode), os.path.dirname(localPath))
+		self.writeLog("Copy mb Files OK. From %s" % os.path.join(self.slavePath, "AssignedJobs", jobCode))
 
 		if "projectAssets" in jobData:
 			for k in epAssets:
