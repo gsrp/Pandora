@@ -40,16 +40,20 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
 
 
     def init(self):
-        self.refreshBtn.clicked.connect(self.on_pathBtn_clicked)
+        #self.refreshBtn.clicked.connect(self.on_pathBtn_clicked)
         #init renderSetting and resourcePath from config.xml
         self.observer = Observer()
         #self.projectListWidget.setFocusPolicy(Qt.NoFocus)
         self.projectListWidget.horizontalHeader().setStretchLastSection(True)
-        #self.refreshBtn.setEnabled(False)
+        self.refreshBtn.setEnabled(False)
+        self.resourcePathEdit.setEnabled(False)
+        self.setWindowTitle("Tasklist Info")
 
     @pyqtSlot()
     def on_pathBtn_clicked(self):
         directory = QFileDialog.getExistingDirectory(self, "select resource path", "/")
+        if (directory == ""):
+            return
         self.resourcePathEdit.setText(directory)
 
     @pyqtSlot()
