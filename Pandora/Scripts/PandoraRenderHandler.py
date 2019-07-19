@@ -757,6 +757,9 @@ class RenderHandler(QMainWindow, RenderHandler_ui.Ui_mw_RenderHandler):
 							scData["slaveScriptVersion"] = ['slaveinfo', "slaveScriptVersion"]
 							scData = self.getConfig(configPath=slaveSettingsPath, data=scData)
 
+							if scData == "Error" or not isinstance(scData,dict):
+								continue
+								
 							if scData["status"] is not None:
 								slaveStatus = scData["status"]
 								rowColorStyle = slaveStatus

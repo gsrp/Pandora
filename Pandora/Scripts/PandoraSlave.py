@@ -1048,14 +1048,7 @@ class SlaveLogic(QDialog):
 
 		return [True]
 
-	@err_decorator
-	def relinkMayaPath(self,mbfilepath):
 
-		mayapyPath = "C:\\Progra~1\\Autodesk\\Maya2019\\bin\\mayapy.exe"
-		relinkfile = "D:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
-		result = subprocess.Popen([mayapyPath, relinkfile, mbfilepath], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		stdOutData, stderrdata = result.communicate()
-		self.writeLog("relinkMayaPath \nstdOutData: {} \nstderrdata:{}\n".format(stdOutData, stderrdata))
 	
 	# checks if the rest period is active
 	@err_decorator
@@ -1196,8 +1189,6 @@ class SlaveLogic(QDialog):
 
 		sceneFile = os.path.join(localPath, sceneName)
 
-		self.relinkMayaPath(sceneFile)
-
 		self.waitingForFiles = False
 
 		if "fileCount" in jobData:
@@ -1258,8 +1249,10 @@ class SlaveLogic(QDialog):
 			bugButton.setVisible(False)
 			self.msg.show()
 
+		self.writeLog("Start Copy mb Files to: %s" % localPath)
 		if not os.path.exists(localPath):
 			shutil.copytree(os.path.join(self.slavePath, "AssignedJobs", jobCode), os.path.dirname(localPath))
+		self.writeLog("Copy mb Files OK. From %s" % os.path.join(self.slavePath, "AssignedJobs", jobCode))
 
 		if "projectAssets" in jobData:
 			for k in epAssets:

@@ -32,7 +32,7 @@
 
 
 
-import os, sys
+import os, sys, subprocess
 import traceback, time, platform, shutil
 from functools import wraps
 
@@ -80,10 +80,21 @@ class Pandora_Maya_externalAccess_Functions(object):
 			if curFilePath != tFilePath:
 				shutil.copy2(curFilePath, tFilePath)
 
+	@err_decorator
+	def relinkMayaPath(self,origin,mbfilepath):
 
+		mayapyPath = "D:\\Autodesk\\Maya2019\\bin\\mayapy.exe"
+		relinkfile = "D:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
+		result = subprocess.Popen([mayapyPath, relinkfile, mbfilepath], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		stdOutData, stderrdata = result.communicate()
+		origin.writeLog("relinkMayaPath \nstdOutData: {} \nstderrdata:{}\n".format(stdOutData, stderrdata))
+		
 	# start a Maya render job
 	@err_decorator
 	def startJob(self, origin, sceneFile="", startFrame=0, endFrame=0, jobData={}):
+
+		self.relinkMayaPath(origin,sceneFile)
+
 		origin.writeLog("starting maya job. " + origin.curjob["name"], 0)
 
 		mayaOverride = self.core.getConfig("dccoverrides", "Maya_override")
