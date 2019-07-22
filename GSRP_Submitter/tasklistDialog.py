@@ -120,6 +120,25 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
             msg_box = QMessageBox(QMessageBox.Critical, "Error", "This path does not exist. Please re-select the path！")
             msg_box.exec_()
 
+
+    def refreshAfterOpenScene(self, bResult,text):
+        try:
+            self.waitDialog.closeDialog()
+            if bResult == True:
+                PandoraSubmitter = getattr(__import__("PandoraSubmitter"), "PandoraSubmitter")(core=Pandoraq,
+                                                                                               parent=self)
+
+                screen = self.geometry()
+                size = PandoraSubmitter.geometry()
+                PandoraSubmitter.move(screen.left() + (screen.width() - size.width()) / 2,
+                                      screen.top() + (screen.height() - size.height()) / 2)
+                PandoraSubmitter.exec_()
+            else:
+                msg_box = QMessageBox(QMessageBox.Critical, "Error",text)
+                msg_box.exec_()
+        except Exception as err:
+            print("refreshAfterOpenScene Error : " + str(err))
+
     @pyqtSlot(int,int)
     def on_projectListWidget_cellDoubleClicked(self,row,col):
         item = self.projectListWidget.item(row,0)
@@ -139,18 +158,20 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
              maya.standalone.initialize('Python')
 
              Pandoraq = getattr(__import__("PandoraCore"), "PandoraCore")(app="Maya")
-             self.openScene(senceFile)
+
+             self.openSceneThread = openSceneThread(senceFile, self)
+             self.openSceneThread.openScenefinishSignal.connect(self.refreshAfterOpenScene)
+             self.openSceneThread.start()
+
+             from waittingDialog import waittingDialog
+             self.waitDialog = waittingDialog(self)
+             self.waitDialog.exec_()
+
+             #self.openScene(senceFile)
              #替换工程里面配置的资源文件路径
              #print("[MayaWorker] Before Relink:{}".format(cmds.filePathEditor(query=True, listDirectories="")))
              #传入外部资源文件所在的正确的路径，后面统一写一个（worker下载任务的路径）
              #self.relink_pathes(project_path=item.text())
-             PandoraSubmitter = getattr(__import__("PandoraSubmitter"), "PandoraSubmitter")(core=Pandoraq,parent=self)
-
-             screen = self.geometry()
-             size = PandoraSubmitter.geometry()
-             PandoraSubmitter.move(screen.left() + (screen.width() - size.width()) / 2,
-                       screen.top() + (screen.height() - size.height()) / 2)
-             PandoraSubmitter.exec_()
 
 
     def openScene(self, path=None):
@@ -256,6 +277,23 @@ class FileEventHandler(FileSystemEventHandler,QObject):
         if event.is_directory:
             print("----------------on_modified--is_directory")
             self.dirChanged.emit()
+
+
+
+class openSceneThread(QThread):
+    openScenefinishSignal = pyqtSignal(bool,str)
+    def __init__(self, senceFile,parent=None):
+        super(openSceneThread, self).__init__(parent)
+        self.parent = parent
+        self.senceFile = senceFile
+    def run(self):
+        try:
+            opend = self.parent.openScene(self.senceFile)
+            self.openScenefinishSignal.emit(True,"Open Scene Success !")
+        except Exception as err:
+            print("openSceneThread error : "+ str(err))
+            self.openScenefinishSignal.emit(False, "Open Scene Error !")
+
 
 
 
