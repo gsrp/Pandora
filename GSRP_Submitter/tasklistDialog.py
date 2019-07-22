@@ -48,6 +48,8 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
         self.refreshBtn.setEnabled(False)
         self.resourcePathEdit.setEnabled(False)
         self.setWindowTitle("Tasklist Info")
+        self.mayaVersionComboBox.addItem("Maya2019")
+        self.renderComboBox.addItem("Redshift 2.6.41")
 
     @pyqtSlot()
     def on_pathBtn_clicked(self):
