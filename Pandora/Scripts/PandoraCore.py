@@ -1764,7 +1764,7 @@ except Exception as e:
 			b_send.clicked.connect(msg.accept)
 			b_ok.clicked.connect(msg.accept)
 
-			action = msg.exec_()
+			action = msg.show()
 
 			if "UnicodeDecodeError" in text or "UnicodeEncodeError" in text:
 				QMessageBox.information(self.messageParent, "Pandora", "The previous error might be caused by the use of special characters (like ö or é). Pandora doesn't support this at the moment. Make sure you remove these characters from your filepaths.".decode("utf8"))
