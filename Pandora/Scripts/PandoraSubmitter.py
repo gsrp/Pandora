@@ -347,16 +347,18 @@ If set to False, the renderings can be found locally on the renderslave, which r
 		self.core.appPlugin.undoRenderSettings(self, rSettings)
 
 		if isinstance(result, list) and result[0] == "Success":
-			msg = QMessageBox(QMessageBox.Information, "Submit Pandora renderjob", "Successfully submited job \"%s\"" % jobData["jobName"], QMessageBox.Ok)
-			msg.addButton("Open in explorer", QMessageBox.YesRole)
-			self.core.parentWindow(msg)
-			action = msg.exec_()
+			print ("Submit Pandora renderjob", "Successfully submited job \"%s\"" % jobData["jobName"])
+			#msg = QMessageBox(QMessageBox.Information, "Submit Pandora renderjob", "Successfully submited job \"%s\"" % jobData["jobName"], QMessageBox.Ok)
+			#msg.addButton("Open in explorer", QMessageBox.YesRole)
+			#self.core.parentWindow(msg)
+			#action = msg.exec_()
 
-			if action == 0:
-				self.core.openFolder(os.path.dirname(result[2]))
-			self.close()
+			#if action == 0:
+			#	self.core.openFolder(os.path.dirname(result[2]))
+			#self.close()
 		elif result.startswith("Submission canceled"):
-			QMessageBox.warning(self.core.messageParent, "Submission canceled", result)
+			print ("Submission canceled")
+			#QMessageBox.warning(self.core.messageParent, "Submission canceled", result)
 
 
 	@err_decorator
