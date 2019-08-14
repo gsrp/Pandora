@@ -152,14 +152,22 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
                 PandoraSubmitter.sp_rangeEnd.setValue(int(endFrame))
 
                 icount = PandoraSubmitter.cb_cam.count()
+                bExist = False
                 for i in range(icount):
                     print ("PandoraSubmitter.cb_cam text : "+str(i))
                     print PandoraSubmitter.cb_cam.itemText(i)
                     if PandoraSubmitter.cb_cam.itemText(i) ==curCamera:
-                        msg_box = QMessageBox(QMessageBox.Critical, "Error", "the camera is  exist !")
-                        msg_box.exec_()
+                        #msg_box = QMessageBox(QMessageBox.Critical, "Error", "the camera is  exist !")
+                        #msg_box.exec_()
+                        bExist =True
                         PandoraSubmitter.cb_cam.setCurrentIndex(i)
                         break
+                if bExist ==False:
+                    msg_box = QMessageBox(QMessageBox.Critical, "Error", "the camera is not exist !")
+                    msg_box.exec_()
+                    return
+
+
 
                 print ("curCamera : " + curCamera)
                 #idx = PandoraSubmitter.cb_cam.findText(curCamera)
@@ -175,7 +183,7 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
                 localIp = self.GetLocalIPByPrefix(ApplicationHelper.yaml_obj["ipPrefix"])
                 print ("localIp : "+str(localIp))
 
-                baseOutPath = "\\"+ localIp+"\\GSRP_Server\\renderResult\\"
+                baseOutPath = "\\\\"+ localIp+"\\GSRP_Server\\renderResult\\"
                 print ("baseOutPath : "+str(baseOutPath))
                 if not os.path.exists(baseOutPath):
                     msg_box = QMessageBox(QMessageBox.Critical, "Error", "output path is not exist !")
@@ -190,11 +198,12 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
                 print ("e_jobName settting ")
 
                 #######
-                screen = self.geometry()
-                size = PandoraSubmitter.geometry()
-                PandoraSubmitter.move(screen.left() + (screen.width() - size.width()) / 2,
-                                      screen.top() + (screen.height() - size.height()) / 2)
-                PandoraSubmitter.exec_()
+                #screen = self.geometry()
+                #size = PandoraSubmitter.geometry()
+                #PandoraSubmitter.move(screen.left() + (screen.width() - size.width()) / 2,
+                #                      screen.top() + (screen.height() - size.height()) / 2)
+                #PandoraSubmitter.exec_()
+                PandoraSubmitter.startSubmission()
             else:
                 msg_box = QMessageBox(QMessageBox.Critical, "Error",text)
                 msg_box.exec_()
