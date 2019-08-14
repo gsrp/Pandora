@@ -4,6 +4,7 @@ from subprocess import PIPE, Popen
 
 import zipfile 
 import shutil
+import config
 
 def Unzip(src, dest):
     shutil.unpack_archive(src, dest)
@@ -60,25 +61,25 @@ def loginFTP(ipAddr):
 
 def downloadWorkerFiles(ipAddr):
     ftpInst = loginFTP(ipAddr)
-    DownLoadFileTree(ftpInst,r"D:\GSRP_Server\GSRP_Worker",r".\GSRP_Worker")
+    DownLoadFileTree(ftpInst,r"C:\GSRP_Server\GSRP_Worker",r".\GSRP_Worker")
     ftpInst.quit()
 
-    if not os.path.exists(r"D:\GSRP_Server\python27.zip"):
+    if not os.path.exists(r"C:\GSRP_Server\python27.zip"):
         ftpInst = loginFTP(ipAddr)
-        DownLoadFile(ftpInst,r"D:\GSRP_Server\python27.zip",r".\python27.zip")
+        DownLoadFile(ftpInst,r"C:\GSRP_Server\python27.zip",r".\python27.zip")
         ftpInst.quit()
-    if not os.path.exists(r"D:\GSRP_Server\Pandora\Python27") or not os.path.exists(r"D:\GSRP_Server\Pandora\PythonLibs"):
+    if not os.path.exists(r"C:\GSRP_Server\Pandora\Python27") or not os.path.exists(r"C:\GSRP_Server\Pandora\PythonLibs"):
         Unzip(
-            r"D:\GSRP_Server\python27.zip", 
-            r"D:\GSRP_Server\Pandora"
+            r"C:\GSRP_Server\python27.zip", 
+            r"C:\GSRP_Server\Pandora"
         )
 
     ftpInst = loginFTP(ipAddr)
-    DownLoadFileTree(ftpInst,r"D:\GSRP_Server\Pandora\Plugins",r".\Pandora\Plugins") 
+    DownLoadFileTree(ftpInst,r"C:\GSRP_Server\Pandora\Plugins",r".\Pandora\Plugins") 
     ftpInst.quit()
 
     ftpInst = loginFTP(ipAddr)
-    DownLoadFileTree(ftpInst,r"D:\GSRP_Server\Pandora\Scripts",r".\Pandora\Scripts")
+    DownLoadFileTree(ftpInst,r"C:\GSRP_Server\Pandora\Scripts",r".\Pandora\Scripts")
     ftpInst.quit()
 
 def tryLogin(ipAddr):                #参数(主机名，字典文件)
@@ -112,15 +113,15 @@ def Sniffing_all(ip):
         thread.start()
 
 def GetRunningFile():
-    localIP = GetLocalIPByPrefix('192.168')
+    localIP = GetLocalIPByPrefix(config.ipPrefix)
     print("localIP={}".format(localIP))
     Sniffing_all(localIP)
 
 def main():
     global serverIP
 
-    if not os.path.exists("D:\\Autodesk"):
-        shutil.copytree("C:\\Progra~1\\Autodesk","D:\\Autodesk")
+    if not os.path.exists("C:\\Autodesk"):
+        shutil.copytree("C:\\Progra~1\\Autodesk","C:\\Autodesk")
         
     GetRunningFile()
  
@@ -131,7 +132,7 @@ def main():
     print("See More Detail In Renderhandler.")
     print("########################################")
     
-    cmd = ' '.join([r"D:\GSRP_Server\Pandora\Python27\python.exe", r"D:\GSRP_Server\GSRP_Worker\run.py",serverIP])
+    cmd = ' '.join([r"C:\GSRP_Server\Pandora\Python27\python.exe", r"C:\GSRP_Server\GSRP_Worker\run.py",serverIP])
     p1 = Popen(
         args=cmd,       # args='r"绝对路径"', 
         # stdout = PIPE,    # 重定向输出的设备。把程序里的结果不输入屏幕上，而是重定向到终端上。

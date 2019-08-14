@@ -62,8 +62,8 @@ def main():
     rootPath = os.path.join('\\\\'+serverName, 'GSRP_Server\\GSRP_Coordinator\\')
     createUserPrefs(rootPath)
     # start PandoraSlave
-    dir0 = r"D:\GSRP_Server\Pandora\Scripts\PandoraSlave.py"
-    pandoraSlave = ' '.join([r"D:\GSRP_Server\Pandora\Python27\PandoraSlave.exe", dir0])
+    dir0 = r"C:\GSRP_Server\Pandora\Scripts\PandoraSlave.py"
+    pandoraSlave = ' '.join([r"C:\GSRP_Server\Pandora\Python27\PandoraSlave.exe", dir0])
     print("Start Run Worker : {}".format(pandoraSlave))
     p1 = Popen(
         args=pandoraSlave,       # args='r"绝对路径"', 

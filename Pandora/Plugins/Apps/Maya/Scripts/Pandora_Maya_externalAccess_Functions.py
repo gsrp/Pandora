@@ -83,8 +83,8 @@ class Pandora_Maya_externalAccess_Functions(object):
 	@err_decorator
 	def relinkMayaPath(self,origin,mbfilepath):
 
-		mayapyPath = "D:\\Autodesk\\Maya2019\\bin\\mayapy.exe"
-		relinkfile = "D:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
+		mayapyPath = "C:\\Autodesk\\Maya2019\\bin\\mayapy.exe"
+		relinkfile = "C:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
 		result = subprocess.Popen([mayapyPath, relinkfile, mbfilepath], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdOutData, stderrdata = result.communicate()
 		origin.writeLog("relinkMayaPath \nstdOutData: {} \nstderrdata:{}\n".format(stdOutData, stderrdata))
