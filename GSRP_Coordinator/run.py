@@ -10,7 +10,18 @@ def main():
     dir0 = r".\Pandora\Scripts\PandoraSettings.py"
     dir1 = r".\GSRP_Coordinator\Scripts\PandoraCoordinator\PandoraCoordinator.py"
     dir2 = r".\Pandora\Scripts\PandoraRenderHandler.py"
-
+    if not os.path.exists(dir0):
+        print("Not Exists:" + dir0)
+        return
+    if not os.path.exists(dir1):
+        print("Not Exists:" + dir1)
+        return
+    if not os.path.exists(dir2):
+        print("Not Exists:" + dir2)
+        return
+    if not os.path.exists(r".\Pandora\Python27\python.exe"):
+        print("Not Exists:" + r".\Pandora\Python27\python.exe")
+        return
     # start PandoraSettings
     pandoraSettings = ' '.join([r".\Pandora\Python27\python.exe", dir0])
 
