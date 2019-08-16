@@ -143,6 +143,7 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
         try:
             self.waitDialog.closeDialog()
             if bResult == True:
+                baseName = os.path.splitext(baseName)[0]
                 PandoraSubmitter = getattr(__import__("PandoraSubmitter"), "PandoraSubmitter")(core=Pandoraq,
                                                                                                parent=self)
                 print ("PandoraSubmitter.cb_cam : " )
@@ -260,23 +261,23 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
         import time
         time.sleep(20)
         print ("path : " + path)
-        dir = os.path.dirname(path)
+        dir = os.path.splitext(path)[0]
         print ("dir : " + dir)
         import zipfile
         z = zipfile.ZipFile(path, 'r')
         z.extractall(path=dir)
         z.close()
-        proPath = os.path.splitext(path)[0]
-        print ("os.path.splitext(path)[0] : "+ os.path.splitext(path)[0])
-        configFile = proPath +"/config.yaml"
+        #proPath = os.path.splitext(path)[0]
+        #print ("os.path.splitext(path)[0] : "+ os.path.splitext(path)[0])
+        configFile = dir +"/config.yaml"
         print ("configFile :" +configFile)
         if not os.path.isfile(configFile):
             print("configFile file not exist!")
             return
 
         senceFile = ""
-        for i in os.listdir(proPath):
-            path_i = os.path.join(proPath, i)
+        for i in os.listdir(dir):
+            path_i = os.path.join(dir, i)
             if os.path.isfile(path_i) and os.path.splitext(i)[1] in ['.mb', '.ma']:
                 senceFile = path_i
                 break
