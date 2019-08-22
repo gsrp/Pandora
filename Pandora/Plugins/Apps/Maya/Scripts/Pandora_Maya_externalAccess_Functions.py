@@ -164,7 +164,7 @@ class Pandora_Maya_externalAccess_Functions(object):
 		f.write(' '.join(popenArgs))
 		f.close()
 		# 在渲染完成后， bat脚本会将rendercmd.txt删除, 表示任务已完成
-		tick = 1
+		tick = 0
 		while os.path.exists(fn):
 			if tick%60 == 0:
 				origin.writeLog("Wait Task To Finish...Elapsed {} min.".format(tick/60),0)
