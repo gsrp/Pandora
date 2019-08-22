@@ -42,7 +42,7 @@ def createUserPrefs(rootPath):
             "windowSize": ""
         },
         "dccoverrides": {
-            "Maya_override": true,
+            "Maya_override": True,
             "Maya_path": config.Maya_path,
             "Mayapy_path": config.Mayapy_path
         },
