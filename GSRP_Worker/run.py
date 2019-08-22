@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os, sys, json, socket, time, threading, ftplib 
 from subprocess import PIPE, Popen
-
+import config
 
 def createUserPrefs(rootPath):
 
@@ -42,6 +42,9 @@ def createUserPrefs(rootPath):
             "windowSize": ""
         },
         "dccoverrides": {
+            "Maya_override": true,
+            "Maya_path": config.Maya_path,
+            "Mayapy_path": config.Mayapy_path
         },
         "lastUsedSettings": {
         }
