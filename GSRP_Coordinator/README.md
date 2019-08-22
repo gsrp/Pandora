@@ -1,10 +1,9 @@
 # 默认路径
-+ 全局配置文件Pandora.json默认创建路径为：
++ 全局配置文件Pandora.json默认创建路径, 该路径自动创建，无需更改。：
     ```
     C:\Users\XXXX\Documents\Pandora\Pandora.json
     ```
-    该路径自动创建，无需更改。
-
+    
 # 运行前准备
 + 服务器打开smb服务
 + 服务器配置开启文件共享访问无需验证  https://blog.csdn.net/RBPicsdn/article/details/79615991
