@@ -64,8 +64,8 @@ def main():
         return
     rendercmd_path = sys.argv[1]
     print("Wait_For_Render.py] rendercmd_path: {}".format(rendercmd_path))
-    wait(rendercmd_path)
-    
+    wait(rendercmd_path,120)
+
     return
     
 if __name__ == '__main__':
