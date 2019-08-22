@@ -1510,11 +1510,11 @@ class SlaveLogic(QDialog):
 			hasNewOutput = True
 
 		if self.interrupted:
-			self.writeLog("rendering interrupted - %s - %s" % (self.curTask, self.curjob["name"]), 2)
+			self.writeLog("rendering interrupted - %s - %s" % (self.curTask, self.curjob["name"]), 1)
 		elif self.taskFailed:
-			self.writeLog("rendering failed - %s - %s" % (self.curTask, self.curjob["name"]), 3)
+			self.writeLog("rendering failed - %s - %s" % (self.curTask, self.curjob["name"]), 1)
 		elif not hasNewOutput:
-			self.writeLog("rendering didn't produce any output - %s - %s" % (self.curTask, self.curjob["name"]), 3)
+			self.writeLog("rendering didn't produce any output - %s - %s" % (self.curTask, self.curjob["name"]), 1)
 		else:
 			self.writeLog("rendering finished - %s - %s" % (self.curTask, self.curjob["name"]), 1)
 

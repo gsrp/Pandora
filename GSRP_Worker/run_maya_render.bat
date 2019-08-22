@@ -61,4 +61,4 @@ python C:\GSRP_Server\Pandora\Plugins\Apps\Maya\Scripts\Wait_For_Render.py %work
 ping -n 3 127.0.0.1>nul
 del %work_path%\rendercmd.txt
 :: 继续领任务 
-goto tryFetch 
+goto tryFetch
