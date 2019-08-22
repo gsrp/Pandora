@@ -61,6 +61,7 @@ def main():
     serverName = sys.argv[1]
     rootPath = os.path.join('\\\\'+serverName, 'GSRP_Server\\GSRP_Coordinator\\')
     createUserPrefs(rootPath)
+
     # start PandoraSlave
     dir0 = r"C:\GSRP_Server\Pandora\Scripts\PandoraSlave.py"
     pandoraSlave = ' '.join([r"C:\GSRP_Server\Pandora\Python27\PandoraSlave.exe", dir0])

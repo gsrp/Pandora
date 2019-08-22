@@ -81,10 +81,17 @@ class Pandora_Maya_externalAccess_Functions(object):
 				shutil.copy2(curFilePath, tFilePath)
 
 	@err_decorator
-	def relinkMayaPath(self,origin,mbfilepath):
+	def relinkMayaPath(self, origin, mbfilepath):
 
-		mayapyPath = "C:\\Autodesk\\Maya2019\\bin\\mayapy.exe"
+		mayapyPath = self.core.getConfig("dccoverrides", "Mayapy_path")
+		# mayapyPath = "C:\\Autodesk\\Maya2019\\bin\\mayapy.exe"
+		if not os.path.exists(mayapyPath):
+			origin.writeLog("relinkMayaPath No Such Mayapy Path:{}\n".format(mayapyPath))
+			return
 		relinkfile = "C:\\GSRP_Server\\Pandora\\Scripts\\mayapyRelinkPath.py"
+		if not os.path.exists(relinkfile):
+			origin.writeLog("relinkMayaPath No Such mayapyRelinkPath.py:{}\n".format(relinkfile))
+			return
 		result = subprocess.Popen([mayapyPath, relinkfile, mbfilepath], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdOutData, stderrdata = result.communicate()
 		origin.writeLog("relinkMayaPath \nstdOutData: {} \nstderrdata:{}\n".format(stdOutData, stderrdata))
@@ -149,5 +156,20 @@ class Pandora_Maya_externalAccess_Functions(object):
 
 		popenArgs.append(sceneFile)
 
-		thread = origin.startRenderThread(pOpenArgs=popenArgs, jData=jobData, prog="maya")
-		return thread
+		# thread = origin.startRenderThread(pOpenArgs=popenArgs, jData=jobData, prog="maya")
+		fn = os.path.join("C:\\GSRP_Server\\GSRP_Worker", 'rendercmd.txt')
+		if os.path.exists(fn):
+			os.remove(fn)
+		f = open(fn, 'w')
+		f.write(' '.join(popenArgs))
+		f.close()
+		# 在渲染完成后， bat脚本会将rendercmd.txt删除, 表示任务已完成
+		tick = 1
+		while os.path.exists(fn):
+			origin.writeLog("Wait Task To Finish...Elapsed {} min.".format(tick/60),0)
+			time.sleep(tick *2)
+			tick = tick + 2
+
+		origin.finishedJob(jobData)
+		return 
+		# return thread

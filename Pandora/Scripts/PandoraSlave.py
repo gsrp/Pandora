@@ -1404,7 +1404,7 @@ class SlaveLogic(QDialog):
 			try:
 				self.writeLog("call " + prog, 1)
 				self.writeLog(popenArgs, 0)
-				self.renderProc = subprocess.Popen(popenArgs, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+				self.renderProc = subprocess.Popen(popenArgs, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
 				def readStdout(prog, decode):
 					try:
