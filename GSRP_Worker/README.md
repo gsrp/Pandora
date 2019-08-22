@@ -1,13 +1,8 @@
 # 配置
 1. 配置config.py中的IP前缀为当期局域网网段
-1. 根据安装的maya版本修改 \Documents\Pandora\Pandora.json  : 
-```
-"dccoverrides": {
-		"Maya_override": true,
-		"Maya_path": "C:\\Autodesk\\Maya2019\\bin\\Render.exe",
+1. 配置config.py中的Maya_path 和Mayapy_path 
+                "Maya_path": "C:\\Autodesk\\Maya2019\\bin\\Render.exe",
 		"Mayapy_path":"C:\\Autodesk\\Maya2019\bin\\mayapy.exe"
-	}
-```
 1. 复制copy_this_to_startup.bat 到 开机启动文件夹： C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 该地址在各个系统下可能有所不同。
 
