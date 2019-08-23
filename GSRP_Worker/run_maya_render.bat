@@ -12,7 +12,7 @@ set dangqian_lujing=%cd%
 
 :: 空闲时定时检查是否有渲染任务
 :tryFetch
-set wait=10
+set wait=60
 @echo ++++
 @echo [STEP 0 tryFetch] Try Maya Reander . Wait %wait% s ...
 @echo ++++
@@ -24,7 +24,7 @@ call :checkAndRun
 :checkAndRun
 @echo [STEP 1 checkAndRun] Get Maya File Path : %work_path%
 call :execcmd 
-ping -n 3 127.0.0.1>nul
+ping -n 50 127.0.0.1>nul
 goto waitWork
 
 

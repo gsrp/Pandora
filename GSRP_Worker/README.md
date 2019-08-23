@@ -1,4 +1,5 @@
 # 配置
+1. 安装python3，pip， 以及模块psutil
 1. 配置config.py中的IP前缀为当期局域网网段
 1. 配置config.py中的Maya_path 和Mayapy_path 
                 "Maya_path": "C:\\Autodesk\\Maya2019\\bin\\Render.exe",
