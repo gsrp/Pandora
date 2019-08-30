@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import socket
-
+import json
 try:
 	from PySide2.QtCore import *
 	from PySide2.QtGui import *
@@ -34,6 +34,15 @@ else:
 	import projectList_ui
 from ApplicationHelper import  ApplicationHelper
 
+
+def GetLocalIPByPrefix(prefix):
+    import socket
+    localIP = ''
+    for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
+        if ip.startswith(prefix):
+            localIP = ip
+    return localIP
+
 class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
     def __init__(self):
         QDialog.__init__(self)
@@ -55,6 +64,14 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
         self.mayaVersionComboBox.addItem("Maya2019")
         self.renderComboBox.addItem("Redshift 2.6.41")
         self.resourcePathEdit.setText(ApplicationHelper.yaml_obj["proPath"])
+
+
+        #开启收集信息的线程
+        self.getSlaveInfoThread = getSlaveInfoThread()
+        self.getSlaveInfoThread.start()
+
+        self.getProjInfoThread = getProjInfoThread()
+        self.getProjInfoThread.start()
 
 
     @pyqtSlot()
@@ -131,13 +148,13 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
             msg_box.exec_()
 
     # 多网卡情况下，根据前缀获取本地IP
-    def GetLocalIPByPrefix(self,prefix):
-        localIP = ''
-        for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
-            if ip.startswith(prefix):
-                localIP = ip
-
-        return localIP
+    # def GetLocalIPByPrefix(self,prefix):
+    #     localIP = ''
+    #     for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
+    #         if ip.startswith(prefix):
+    #             localIP = ip
+    #
+    #     return localIP
 
     def refreshAfterOpenScene(self, bResult,text,baseName,curCamera,startFrame,endFrame,framePerTask):
         try:
@@ -181,7 +198,7 @@ class mainWindow(QDialog, projectList_ui.Ui_projectListDialog):
                 #    return
                 PandoraSubmitter.sp_framesPerTask.setValue(int(framePerTask))
                 print ("framePerTask : "+str(framePerTask))
-                localIp = self.GetLocalIPByPrefix(ApplicationHelper.yaml_obj["ipPrefix"])
+                localIp = GetLocalIPByPrefix(ApplicationHelper.yaml_obj["ipPrefix"])
                 print ("localIp : "+str(localIp))
 
                 baseOutPath = "\\\\"+ localIp+"\\GSRP_Server\\renderResult\\"
@@ -446,6 +463,65 @@ class openSceneThread(QThread):
         except Exception as err:
             print("openSceneThread error : "+ str(err))
             self.openScenefinishSignal.emit(False, "Open Scene Error !","","","","","")
+
+
+
+class getSlaveInfoThread(QThread):
+    def __init__(self,parent=None):
+        super(getSlaveInfoThread, self).__init__(parent)
+
+    def run(self):
+        try:
+            import requests
+            import json
+            import getPandoraInfo_func
+            localIp = GetLocalIPByPrefix(ApplicationHelper.yaml_obj["ipPrefix"])
+            print ("localIp : " + str(localIp))
+            #localIp = "192.168.50.26"
+            while (1):
+                slavePath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\Slaves"
+                result = getPandoraInfo_func.getSlaveInfo(slavePath)
+                print ("getSlaveInfo result : ", str(result) )
+                if result[0] == True:
+                    body = result[1]
+                    print ("body : ",body)
+                    headers = {'content-type': "application/json"}
+                    result = requests.post(ApplicationHelper.serverUrl + "/node/render_info/updateRenderInfo", json=body,
+                                           headers=headers)
+                    print ("getSlaveInfoThread result : ",result)
+                    import time
+                    time.sleep(20)
+        except Exception as err:
+            print ("getSlaveInfoThread Run Exception Error : "+str(err))
+
+class getProjInfoThread(QThread):
+    def __init__(self,parent=None):
+        super(getProjInfoThread, self).__init__(parent)
+
+    def run(self):
+        try:
+            import requests
+            import json
+            import getPandoraInfo_func
+            localIp = GetLocalIPByPrefix(ApplicationHelper.yaml_obj["ipPrefix"])
+            print ("localIp : " + str(localIp))
+            #localIp = "192.168.50.26"
+            while (1):
+                projPath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\JobRepository\\Jobs"
+                result = getPandoraInfo_func.getAllProj(projPath)
+                if result[0] == True:
+                    body = result[1]
+                    headers = {'content-type': "application/json"}
+                    result = requests.post(ApplicationHelper.serverUrl + "/project/task_info/updateTaskInfo", json=body,
+                                  headers=headers)
+                    print ("getProjInfoThread result  : ", result)
+                import time
+                time.sleep(20)
+        except Exception as err:
+            print ("getProjInfoThread Run Exception Error : " + str(err))
+
+
+
 
 
 
