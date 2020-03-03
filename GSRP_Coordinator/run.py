@@ -62,7 +62,7 @@ def main():
         shell=True,
     )
 
-    # 实例化用户授权管理 
+    # 实例化ftp用户授权管理 
     try:
         authorizer = DummyAuthorizer() 
         authorizer.add_user( # 该用户用来领取任务

@@ -472,6 +472,7 @@ class getSlaveInfoThread(QThread):
 
     def run(self):
         try:
+            import time
             import requests
             import json
             import getPandoraInfo_func
@@ -479,20 +480,24 @@ class getSlaveInfoThread(QThread):
             print ("localIp : " + str(localIp))
             #localIp = "192.168.50.26"
             while (1):
-                slavePath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\Slaves"
-                result = getPandoraInfo_func.getSlaveInfo(slavePath)
-                print ("getSlaveInfo result : ", str(result) )
-                if result[0] == True:
-                    body = result[1]
-                    print ("body : ",body)
-                    headers = {'content-type': "application/json"}
-                    result = requests.post(ApplicationHelper.serverUrl + "/node/render_info/updateRenderInfo", json=body,
-                                           headers=headers)
-                    print ("getSlaveInfoThread result : ",result)
-                    import time
+                try:
+                    slavePath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\Slaves"
+                    result = getPandoraInfo_func.getSlaveInfo(slavePath)
+                    print ("getSlaveInfo result : ", str(result) )
+                    if result[0] == True:
+                        body = result[1]
+                        print ("body : ",body)
+                        headers = {'content-type': "application/json"}
+                        result = requests.post(ApplicationHelper.serverUrl + "/node/render_info/updateRenderInfo", json=body,
+                                               headers=headers)
+                        print ("getSlaveInfoThread result : ",result)
+                except Exception as err:
+                    print ("getSlaveInfoThread requests Exception Error : "+str(err))
+                finally:
                     time.sleep(20)
         except Exception as err:
             print ("getSlaveInfoThread Run Exception Error : "+str(err))
+
 
 class getProjInfoThread(QThread):
     def __init__(self,parent=None):
@@ -500,6 +505,7 @@ class getProjInfoThread(QThread):
 
     def run(self):
         try:
+            import time
             import requests
             import json
             import getPandoraInfo_func
@@ -507,18 +513,23 @@ class getProjInfoThread(QThread):
             print ("localIp : " + str(localIp))
             #localIp = "192.168.50.26"
             while (1):
-                projPath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\JobRepository\\Jobs"
-                result = getPandoraInfo_func.getAllProj(projPath)
-                if result[0] == True:
-                    body = result[1]
-                    headers = {'content-type': "application/json"}
-                    result = requests.post(ApplicationHelper.serverUrl + "/project/task_info/updateTaskInfo", json=body,
-                                  headers=headers)
-                    print ("getProjInfoThread result  : ", result)
-                import time
-                time.sleep(20)
+                try:
+                    projPath = "\\\\" + localIp + "\\GSRP_Server\\GSRP_Coordinator\\JobRepository\\Jobs"
+                    result = getPandoraInfo_func.getAllProj(projPath)
+                    if result[0] == True:
+                        body = result[1]
+                        headers = {'content-type': "application/json"}
+                        result = requests.post(ApplicationHelper.serverUrl + "/project/task_info/updateTaskInfo",
+                                               json=body,
+                                               headers=headers)
+                        print ("getProjInfoThread result  : ", result)
+                except Exception as err:
+                    print ("getProjInfoThread requests Exception Error : " + str(err))
+                finally:
+                    time.sleep(20)
         except Exception as err:
             print ("getProjInfoThread Run Exception Error : " + str(err))
+
 
 
 

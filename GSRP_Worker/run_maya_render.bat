@@ -19,7 +19,7 @@ set wait=20
 :: 等待10s 
 ping -n %wait% 127.0.0.1>nul
 :: 尝试下载文件
-call :checkAndRun 
+goto :checkAndRun 
 
 :checkAndRun
 @echo [STEP 1 checkAndRun] Get Maya File Path : %work_path%
