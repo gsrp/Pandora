@@ -1,0 +1,3 @@
+cd D/GSRP_Server/GSRP_Submitter
+
+./run.bat

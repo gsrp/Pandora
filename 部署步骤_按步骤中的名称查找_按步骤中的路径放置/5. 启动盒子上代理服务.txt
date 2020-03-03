@@ -1,0 +1,9 @@
+#即lz的程序,即 ssh://git@sleewa.cn:6000/share-gpu-render-platform/sgrp_server.git这个地址master分支的代码编译出来的工具，位置随便放置(可以和GSRP_Submitter放在一起)
+
+cd GSRP_NodeProxy/mainpage
+双击 mainpage.exe
+
+注册一个新账户。需要导入该账户的keystore，及账户需要有余额。注意L如果提示insufficient funds for gas * price + value 表示 该账户余额不足。如果提示'account already exists'，或者 Python int too large to convert to C ssize_t  需要 删除 D:\gsrpchain\keystore下对应的keystore文件。
+
+注册完成后，在登录界面使用用户名和密码进行登录。
+

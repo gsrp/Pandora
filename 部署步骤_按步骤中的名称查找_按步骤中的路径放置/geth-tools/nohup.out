@@ -1,0 +1,4 @@
+WARN [08-20|13:53:01.371] Sanitizing cache to Go's GC limits       provided=4096 updated=2700
+WARN [08-20|13:53:02.447] Upgrade blockchain database version      from=<nil> to=7
+ERROR[08-20|13:53:03.871] Cannot start mining without etherbase    err="etherbase must be explicitly specified"
+Fatal: Failed to start mining: etherbase missing: etherbase must be explicitly specified

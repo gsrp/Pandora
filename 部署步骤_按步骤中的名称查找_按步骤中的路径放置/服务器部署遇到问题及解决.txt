@@ -1,0 +1,19 @@
+1、maya注册机如果没有的话可以在maya2019安装包里面有个压缩包里面游下载的地址
+
+2、maya2019安装的时候注册机可能会被查杀，需要关闭杀毒软件，如果是window defender关闭流程如下：
+https://jingyan.baidu.com/article/bad08e1e48115d49c85121d7.html
+
+3、maya安装破解步骤:破解步骤 ： https://www.douban.com/note/724837615/
+
+4、geth没有，geth-tools目录下有一个geth-win-190.exe安装包, 直接next安装，可能需要在环境变量中设置路径
+
+
+5、设备无密码文件夹共享，win10 家庭版在设置的时候无法调用win+R设置，先开启：https://jingyan.baidu.com/article/3d69c5513b7aaef0cf02d793.html，结果还是要专业版才行
+
+6、同步节点无法同步的时候需要检查是否能链接上 geth attach http://localhost:21024 查看 net 信息
+
+7、同步节点前先在D盘下创建gsrpchain文件夹，并且将geth-tools下的static-nodes.json拷贝到d:/gsrpchain，之后再进行同步
+
+8、同步的时候 不停的报该warning报错 WARN [12-10|16:58:26.762] Synchronisation failed, dropping peer    peer=f60b4e4eeedc8423 err="retrieved hash chain is invalid" ，则删除d:/gsrpchain下的geth文件夹全部重新同步
+
+9、d:/GSRP_Coordinator 运行之后如果无法检测到worker机器的话，可能是防火墙开了，将防火墙关闭。win10还可能是ftp服务没有开需要手动开启（搜索win10  ftp 确认 ftp服务开启了，正常情况下代码应该已经开启ftp服务了，只需确认防火墙）

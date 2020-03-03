@@ -1,0 +1,27 @@
+ 链节点 服务器:  49.51.138.248  用户名: ubuntu  密码: sleewa18!@#$5
+
+cd /home/ubuntu/geth-tools
+
+
+./sgrp_backend_linux_amd64 deploy 
+
+部署完成后，将会所有部署的合约地址复制并汇总到addresses.json
+
+命令说明如下：
+ ./sgrp_backend_linux_amd64 --help
+共享GPU渲染平台
+
+Usage:
+  sgrp_backendV2 [command]
+
+Available Commands:
+  deploy       Deploy All contracts And Init ...
+  genekeystore Generate A Keystore File
+  help         Help about any command
+  http-server  Start SGRP Backend Service
+  utest        unit test contracts
+
+Flags:
+  -h, --help   help for sgrp_backendV2
+
+Use "sgrp_backendV2 [command] --help" for more information about a command.

@@ -1,0 +1,9 @@
+1、在D盘下新建一个文件夹gsrpchain,并且将geth-tools目录下的下的static-nodes.json文件拷贝到D:\gsrpchain下
+2、最好重新安装一下geth，不同版本可能命令不一样，会出现关键字未定义的问题
+
+3、复制 geth-tools 到d盘下。
+执行：
+cd /d/geth-tools
+.runnode.bat
+
+注：启动后节点数据路径：D:\gsrpchain，如果同步一段时间失败了但是不知道原因的情况下，可以将D:\gsrpchain下geth、keystore文件夹删掉再试一次
